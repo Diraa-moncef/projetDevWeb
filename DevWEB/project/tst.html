@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      width: 300px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .page-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.page-title img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.page-title span {
+  font-size: 28px;
+  animation: typing 3s steps(20, end), blink 0.6s infinite step-end alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #00ff00;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  from {
+    border-color: transparent;
+  }
+  to {
+    border-color: #00ff00;
+  }
+}
+
+    .logo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .logo img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+    .logo span {
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .toggle button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      background-color: #eee;
+      color: #333;
+    }
+
+    .toggle button.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+    }
+
+    form.active {
+      display: flex;
+    }
+
+    input {
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button.submit {
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body background="BDO_Digital_Cyber_Security_LR.jpg" width="200" height="300">
+  <div class="container">
+    <div class="logo">
+        <img src="safezone-tester.png" alt="logo Safewone tester" >
+        <span>SafeZone-Tester</span>
+    </div>
+    <div class="toggle">
+      <button id="login-btn" class="active">Connexion</button>
+      <button id="register-btn">Inscription</button>
+    </div>
+    <form id="login-form" class="active">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Mot de passe" required>
+      <button class="submit" type="submit">Se connecter</button>
+    </form>
+    <form id="register-form">
+      <input type="text" placeholder="Nom d'utilisateur" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Mot de passe" required>
+      <button class="submit" type="submit">S'inscrire</button>
+    </form>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+
+    loginBtn.addEventListener('click', () => {
+      loginForm.classList.add('active');
+      registerForm.classList.remove('active');
+      loginBtn.classList.add('active');
+      registerBtn.classList.remove('active');
+    });
+
+    registerBtn.addEventListener('click', () => {
+      registerForm.classList.add('active');
+      loginForm.classList.remove('active');
+      registerBtn.classList.add('active');
+      loginBtn.classList.remove('active');
+    });
+  </script>
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+    
+        // Simuler l'ajout dans une base de données
+        file_put_contents('users.txt', "$username:$password\n", FILE_APPEND);
+        echo "Inscription réussie ! <a href='index.php'>Se connecter</a>";
+    }
+    ?>
+</body>
+</html>
