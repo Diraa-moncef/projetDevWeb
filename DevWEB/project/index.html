@@ -1,18 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>login page</title>
+    <title>Zone de Test Sécurisée</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #ff0000;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 200px;
+            padding: 10px;
+            background: #ff0000;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .auth-form {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px #ff0000;
+            display: none;
+        }
+
+        .auth-form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ff0000;
+            background: #000;
+            color: #ff0000;
+        }
+
+        .auth-form button {
+            margin-top: 10px;
+        }
+    </style>
 </head>
-<body background="BDO_Digital_Cyber_Security_LR.jpg" width ="300" height="200" >
-    <h1><FONT size="10pt" color="white" face="sans-serif Times New Roman" class="positioned"> <img src="/home/ipiipi/Downloads/pngtree-computer-hacker-png-image_12507615-removebg-preview.png" width="7%" height="7%" alt="logo safesec"/>SafeZone Tester</FONT></h1>
-    <div class="login-container">
-        <form action="php/auth.php" methode="POST">
-            <label for="username" class="username">username</label>
-            <input type="text" name="username" id="username" required>
-            <label for="password" id="password" required><button type="submit">login</button>
-</div>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="content">
+        <p>Bienvenue dans la zone de test sécurisée.</p>
+        <button onclick="showAuthForm()">Connexion</button>
+        <div class="auth-form" id="authForm">
+            <p>Authentification Requise</p>
+            <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button onclick="authenticate()">Se connecter</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const rainDrops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#ff0000';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+
+        setInterval(draw, 30);
+
+        function showAuthForm() {
+            document.getElementById('authForm').style.display = 'block';
+        }
+
+        function authenticate() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulation de l'authentification
+            if (username === 'admin' && password === 'securepass') {
+                alert('Authentification réussie !');
+                document.getElementById('authForm').style.display = 'none';
+                // Redirection ou activation des fonctionnalités
+                window.location.href = 'pentest-simulator.html';
+            } else {
+                alert('Nom d\'utilisateur ou mot de passe incorrect.');
+            }
+        }
+    </script>
 </body>
 </html>
